@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Контрол и история</span>
+      <h1>Audit log</h1>
+    </div>
+
+    <form action="/admin/audit-logs" method="get" class="filter-inline">
+      <input type="text" name="action" value="<%= filters.action %>" placeholder="Търси по action" />
+      <input type="date" name="date" value="<%= filters.date %>" />
+      <button type="submit" class="ghost-button">Филтрирай</button>
+      <a href="/admin/audit-logs" class="ghost-button button-link">Изчисти</a>
+    </form>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Кога</th>
+          <th>Потребител</th>
+          <th>Роля</th>
+          <th>Action</th>
+          <th>Entity</th>
+          <th>Entity ID</th>
+          <th>Детайли</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (logs.length === 0) { %>
+          <tr>
+            <td colspan="7" class="table-empty">Няма audit записи за зададения филтър.</td>
+          </tr>
+        <% } %>
+
+        <% logs.forEach((log) => { %>
+          <tr>
+            <td><%= log.created_at %></td>
+            <td><%= log.actor_name ?? 'System' %></td>
+            <td><%= log.actor_role ? roleLabel(log.actor_role) : 'System' %></td>
+            <td><%= log.action %></td>
+            <td><%= log.entity_type %></td>
+            <td><%= log.entity_id ?? '-' %></td>
+            <td class="details-cell"><%= log.details ?? '-' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

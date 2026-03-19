@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+
+<section class="hero-card">
+  <div>
+    <span class="eyebrow"><%= event.category %></span>
+    <h1><%= event.title %></h1>
+    <p><%= event.description %></p>
+  </div>
+
+  <div class="panel detail-sidecard">
+    <h2>Информация</h2>
+    <dl class="meta-grid">
+      <div>
+        <dt>Клас</dt>
+        <dd><%= event.target_group %></dd>
+      </div>
+      <div>
+        <dt>Дата</dt>
+        <dd><%= event.event_date %></dd>
+      </div>
+      <div>
+        <dt>Час</dt>
+        <dd><%= event.departure_time %></dd>
+      </div>
+      <div>
+        <dt>Локация</dt>
+        <dd><%= event.location %></dd>
+      </div>
+      <div>
+        <dt>Организатор</dt>
+        <dd><%= event.organizer_name %> · <%= event.organizer_email %></dd>
+      </div>
+      <div>
+        <dt>Свободни места</dt>
+        <dd><%= availableSeats %> / <%= event.seats_total %></dd>
+      </div>
+    </dl>
+
+    <div class="card-actions vertical">
+      <% if (currentUser.role === 'student' && event.status === 'open') { %>
+        <% if (studentRegistration && studentRegistration.status === 'registered') { %>
+          <div class="status-stack">
+            <span class="status-badge <%= studentRegistration.parent_approval_status %>">
+              Съгласие: <%= studentRegistration.parent_approval_status %>
+            </span>
+            <span class="status-badge <%= studentRegistration.payment_status %>">
+              Плащане: <%= studentRegistration.payment_status %>
+            </span>
+          </div>
+          <form action="/events/<%= event.id %>/unregister" method="post">
+            <button type="submit" class="ghost-button danger">Отказвам участие</button>
+          </form>
+        <% } else { %>
+          <form action="/events/<%= event.id %>/register" method="post">
+            <button type="submit" class="primary-button" <%= availableSeats <= 0 ? 'disabled' : '' %>>
+              Запиши се
+            </button>
+          </form>
+        <% } %>
+      <% } %>
+
+      <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+        <a href="/events/<%= event.id %>/edit" class="ghost-button button-link">Редакция</a>
+        <a href="/events/<%= event.id %>/participants" class="ghost-button button-link">Участници</a>
+        <% if (event.status === 'open') { %>
+          <form action="/events/<%= event.id %>/cancel" method="post">
+            <button type="submit" class="ghost-button danger">Отмени събитието</button>
+          </form>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<% if (currentUser.role === 'parent' && parentLinkedRegistrations.length > 0) { %>
+  <section class="panel">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Родителско действие</span>
+        <h2>Потвърждение за ученик</h2>
+      </div>
+    </div>
+
+    <% parentLinkedRegistrations.forEach((registration) => { %>
+      <div class="approval-card">
+        <div>
+          <strong><%= registration.student_name %></strong>
+          <p class="muted-text">Статус: <%= registration.approval_status %></p>
+        </div>
+
+        <% if (registration.approval_status === 'pending') { %>
+          <div class="inline-actions">
+            <form action="/registrations/<%= registration.registration_id %>/approval" method="post">
+              <input type="hidden" name="approvalStatus" value="approved" />
+              <button type="submit" class="small-button success">Одобри</button>
+            </form>
+            <form action="/registrations/<%= registration.registration_id %>/approval" method="post">
+              <input type="hidden" name="approvalStatus" value="rejected" />
+              <button type="submit" class="small-button danger">Откажи</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    <% }) %>
+  </section>
+<% } %>
+
+<%- include('../partials/footer') %>

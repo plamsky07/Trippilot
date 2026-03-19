@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="hero-card compact">
+  <div>
+    <span class="eyebrow">Админ панел</span>
+    <h1>Статистика за ученически събития</h1>
+    <p>
+      Преглед на най-важните числа за платформата: брой събития, регистрации,
+      потребители и най-популярна екскурзия.
+    </p>
+  </div>
+
+  <div class="summary-grid">
+    <article class="summary-card">
+      <span class="summary-label">Събития</span>
+      <strong><%= summary.totalEvents %></strong>
+    </article>
+    <article class="summary-card">
+      <span class="summary-label">Активни регистрации</span>
+      <strong><%= summary.totalRegistrations %></strong>
+    </article>
+    <article class="summary-card">
+      <span class="summary-label">Потребители</span>
+      <strong><%= summary.totalUsers %></strong>
+    </article>
+    <article class="summary-card accent">
+      <span class="summary-label">Най-популярно събитие</span>
+      <strong><%= summary.topEventTitle %></strong>
+      <small><%= summary.topEventRegistrations %> записвания</small>
+    </article>
+  </div>
+</section>
+
+<section class="cards-grid">
+  <article class="panel">
+    <h2>Следващи admin стъпки</h2>
+    <p>Използвай навигацията горе, за да управляваш потребители или да прегледаш audit log.</p>
+  </article>
+</section>
+
+<%- include('../partials/footer') %>

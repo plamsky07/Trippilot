@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Организация</span>
+      <h1>Участници за <%= event.title %></h1>
+    </div>
+
+    <form action="/events/<%= event.id %>/participants" method="get" class="search-inline">
+      <input type="text" name="q" value="<%= search %>" placeholder="Търси по име или имейл" />
+      <button type="submit" class="ghost-button">Търси</button>
+    </form>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Ученик</th>
+          <th>Имейл</th>
+          <th>Съгласие</th>
+          <th>Плащане</th>
+          <th>Място</th>
+          <th>Статус</th>
+          <th>Записване</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (participants.length === 0) { %>
+          <tr>
+            <td colspan="8" class="table-empty">Няма участници за показване.</td>
+          </tr>
+        <% } %>
+
+        <% participants.forEach((participant) => { %>
+          <tr>
+            <td><%= participant.student_name %></td>
+            <td><%= participant.student_email %></td>
+            <td><span class="status-badge <%= participant.parent_approval_status %>"><%= participant.parent_approval_status %></span></td>
+            <td><span class="status-badge <%= participant.payment_status %>"><%= participant.payment_status %></span></td>
+            <td><%= participant.seat_number ?? 'Няма' %></td>
+            <td><%= participant.status %></td>
+            <td><%= participant.created_at %></td>
+            <td>
+              <form action="/registrations/<%= participant.id %>/manage" method="post" class="inline-form">
+                <input type="hidden" name="eventId" value="<%= event.id %>" />
+                <select name="paymentStatus">
+                  <option value="unpaid" <%= participant.payment_status === 'unpaid' ? 'selected' : '' %>>unpaid</option>
+                  <option value="paid" <%= participant.payment_status === 'paid' ? 'selected' : '' %>>paid</option>
+                </select>
+                <input type="text" name="seatNumber" value="<%= participant.seat_number ?? '' %>" placeholder="Място" />
+                <button type="submit" class="small-button">Запази</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

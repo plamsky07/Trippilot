@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<section class="hero-card compact">
+  <div>
+    <span class="eyebrow">Вход в системата</span>
+    <h1>Trippilot за ученици, учители, родители и администратори</h1>
+    <p>
+      Влез, за да управляваш ученически екскурзии, училищни събития, записвания,
+      родителски съгласия и плащания.
+    </p>
+  </div>
+
+  <div class="auth-layout">
+    <form action="/login" method="post" class="panel form-card">
+      <h2>Вход</h2>
+
+      <% if (errorMessage) { %>
+        <div class="inline-error"><%= errorMessage %></div>
+      <% } %>
+
+      <label>
+        Имейл
+        <input type="email" name="email" value="<%= formData.email %>" required />
+      </label>
+
+      <label>
+        Парола
+        <input type="password" name="password" required />
+      </label>
+
+      <button type="submit" class="primary-button full-width">Влез</button>
+
+      <p class="muted-text">
+        Нямаш профил? <a href="/register">Създай акаунт</a>
+      </p>
+    </form>
+
+    <aside class="panel demo-card">
+      <h3>Демо акаунти</h3>
+      <ul class="credentials-list">
+        <li><strong>Admin:</strong> `admin@trippilot.local` / `Admin123!`</li>
+        <li><strong>Teacher:</strong> `teacher@trippilot.local` / `Teacher123!`</li>
+        <li><strong>Student:</strong> `student@trippilot.local` / `Student123!`</li>
+        <li><strong>Parent:</strong> `parent@trippilot.local` / `Parent123!`</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

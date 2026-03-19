@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Администрация</span>
+      <h1>Потребители</h1>
+    </div>
+
+    <form action="/admin/users" method="get" class="search-inline">
+      <input type="text" name="q" value="<%= search %>" placeholder="Име или имейл" />
+      <button type="submit" class="ghost-button">Търси</button>
+    </form>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Име</th>
+          <th>Имейл</th>
+          <th>Роля</th>
+          <th>Статус</th>
+          <th>Смяна на роля</th>
+          <th>Блокиране</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach((user) => { %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= roleLabel(user.role) %></td>
+            <td>
+              <span class="status-badge <%= Number(user.is_active) === 1 ? 'approved' : 'rejected' %>">
+                <%= Number(user.is_active) === 1 ? 'active' : 'blocked' %>
+              </span>
+            </td>
+            <td>
+              <form action="/admin/users/<%= user.id %>/role" method="post" class="inline-form">
+                <select name="role">
+                  <option value="student" <%= user.role === 'student' ? 'selected' : '' %>>Ученик</option>
+                  <option value="teacher" <%= user.role === 'teacher' ? 'selected' : '' %>>Учител</option>
+                  <option value="parent" <%= user.role === 'parent' ? 'selected' : '' %>>Родител</option>
+                  <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Админ</option>
+                </select>
+                <button type="submit" class="small-button">Запази</button>
+              </form>
+            </td>
+            <td>
+              <form action="/admin/users/<%= user.id %>/toggle-status" method="post">
+                <button type="submit" class="small-button <%= Number(user.is_active) === 1 ? 'danger' : 'success' %>">
+                  <%= Number(user.is_active) === 1 ? 'Блокирай' : 'Разблокирай' %>
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

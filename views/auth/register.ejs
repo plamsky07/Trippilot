@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+
+<section class="hero-card compact">
+  <div>
+    <span class="eyebrow">Нова регистрация</span>
+    <h1>Създай профил за училищната платформа</h1>
+    <p>
+      Ученици, учители и родители могат да създават профили и да участват в
+      процеса по организация на ученически екскурзии и училищни събития.
+    </p>
+  </div>
+
+  <form action="/register" method="post" class="panel form-card wide">
+    <h2>Регистрация</h2>
+
+    <% if (errorMessage) { %>
+      <div class="inline-error"><%= errorMessage %></div>
+    <% } %>
+
+    <div class="form-grid two-columns">
+      <label>
+        Име и фамилия
+        <input type="text" name="name" value="<%= formData.name %>" required />
+      </label>
+
+      <label>
+        Имейл
+        <input type="email" name="email" value="<%= formData.email %>" required />
+      </label>
+
+      <label>
+        Парола
+        <input type="password" name="password" required />
+      </label>
+
+      <label>
+        Роля
+        <select name="role" required>
+          <% roleOptions.forEach((option) => { %>
+            <option value="<%= option.value %>" <%= formData.role === option.value ? 'selected' : '' %>>
+              <%= option.label %>
+            </option>
+          <% }) %>
+        </select>
+      </label>
+    </div>
+
+    <label>
+      Имейл на ученик за свързване с родител
+      <input
+        type="email"
+        name="linkedStudentEmail"
+        value="<%= formData.linkedStudentEmail %>"
+        placeholder="Използва се само ако ролята е Родител"
+      />
+    </label>
+
+    <button type="submit" class="primary-button">Създай акаунт</button>
+
+    <p class="muted-text">
+      Вече имаш профил? <a href="/login">Влез тук</a>
+    </p>
+  </form>
+</section>
+
+<%- include('../partials/footer') %>

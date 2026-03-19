@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %> | Trippilot</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-block">
+          <a href="/events" class="brand-mark">Trippilot</a>
+          <p class="brand-copy">Организация на ученически екскурзии и училищни събития</p>
+        </div>
+
+        <div class="topbar-actions">
+          <% if (currentUser) { %>
+            <nav class="main-nav">
+              <a href="/events" class="<%= currentPath.startsWith('/events') ? 'active' : '' %>">Събития</a>
+              <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+                <a href="/events/new" class="<%= currentPath === '/events/new' ? 'active' : '' %>">Ново събитие</a>
+              <% } %>
+              <% if (currentUser.role === 'admin') { %>
+                <a href="/admin/stats" class="<%= currentPath.startsWith('/admin/stats') ? 'active' : '' %>">Статистика</a>
+                <a href="/admin/users" class="<%= currentPath.startsWith('/admin/users') ? 'active' : '' %>">Потребители</a>
+                <a href="/admin/audit-logs" class="<%= currentPath.startsWith('/admin/audit-logs') ? 'active' : '' %>">Audit log</a>
+              <% } %>
+            </nav>
+
+            <div class="user-chip">
+              <span><strong><%= currentUser.name %></strong></span>
+              <span><%= roleLabel(currentUser.role) %></span>
+            </div>
+
+            <form action="/logout" method="post">
+              <button type="submit" class="ghost-button">Изход</button>
+            </form>
+          <% } %>
+        </div>
+      </header>
+
+      <% if (flash) { %>
+        <div class="flash <%= flash.type %>">
+          <%= flash.message %>
+        </div>
+      <% } %>
+
+      <main class="content-shell">

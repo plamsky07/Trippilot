@@ -1,0 +1,166 @@
+<%- include('../partials/header') %>
+
+<section class="hero-card">
+  <div>
+    <span class="eyebrow">Училищен календар</span>
+    <h1>Екскурзии, посещения и събития за ученици</h1>
+    <p>
+      Тук учителите публикуват нови събития, учениците се записват, а родителите
+      потвърждават участие и следят организацията.
+    </p>
+  </div>
+
+  <form action="/events" method="get" class="panel filter-panel">
+    <div class="form-grid four-columns">
+      <label>
+        Търси по заглавие или клас
+        <input type="text" name="q" value="<%= filters.q %>" placeholder="напр. Пловдив или 7А" />
+      </label>
+
+      <label>
+        Категория
+        <select name="category">
+          <option value="">Всички</option>
+          <% eventCategories.forEach((categoryOption) => { %>
+            <option value="<%= categoryOption %>" <%= filters.category === categoryOption ? 'selected' : '' %>>
+              <%= categoryOption %>
+            </option>
+          <% }) %>
+        </select>
+      </label>
+
+      <label>
+        Дата
+        <input type="date" name="date" value="<%= filters.date %>" />
+      </label>
+
+      <div class="filter-actions">
+        <button type="submit" class="primary-button">Филтрирай</button>
+        <a href="/events" class="ghost-button button-link">Изчисти</a>
+      </div>
+    </div>
+  </form>
+</section>
+
+<% if (currentUser.role === 'parent' && parentApprovals.length > 0) { %>
+  <section class="panel">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Родителски действия</span>
+        <h2>Чакащи потвърждения</h2>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ученик</th>
+            <th>Събитие</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% parentApprovals.forEach((approval) => { %>
+            <tr>
+              <td><%= approval.student_name %></td>
+              <td><a href="/events/<%= approval.event_id %>"><%= approval.event_title %></a></td>
+              <td><%= approval.event_date %></td>
+              <td><span class="status-badge <%= approval.approval_status %>"><%= approval.approval_status %></span></td>
+              <td>
+                <% if (approval.approval_status === 'pending') { %>
+                  <div class="inline-actions">
+                    <form action="/registrations/<%= approval.registration_id %>/approval" method="post">
+                      <input type="hidden" name="approvalStatus" value="approved" />
+                      <button type="submit" class="small-button success">Одобри</button>
+                    </form>
+                    <form action="/registrations/<%= approval.registration_id %>/approval" method="post">
+                      <input type="hidden" name="approvalStatus" value="rejected" />
+                      <button type="submit" class="small-button danger">Откажи</button>
+                    </form>
+                  </div>
+                <% } else { %>
+                  <span class="muted-text">Вече обработено</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<% } %>
+
+<section class="cards-grid">
+  <% if (events.length === 0) { %>
+    <article class="panel empty-card">
+      <h2>Няма съвпадащи събития</h2>
+      <p>Пробвай с друга дата, категория или част от заглавието.</p>
+    </article>
+  <% } %>
+
+  <% events.forEach((event) => { %>
+    <article class="panel event-card">
+      <div class="event-card-header">
+        <span class="status-pill <%= event.status %>"><%= event.status === 'open' ? 'Отворено' : 'Отменено' %></span>
+        <span class="eyebrow"><%= event.category %></span>
+      </div>
+
+      <h2><a href="/events/<%= event.id %>"><%= event.title %></a></h2>
+      <p><%= event.description %></p>
+
+      <dl class="meta-grid">
+        <div>
+          <dt>Клас</dt>
+          <dd><%= event.target_group %></dd>
+        </div>
+        <div>
+          <dt>Дата</dt>
+          <dd><%= event.event_date %></dd>
+        </div>
+        <div>
+          <dt>Час</dt>
+          <dd><%= event.departure_time %></dd>
+        </div>
+        <div>
+          <dt>Локация</dt>
+          <dd><%= event.location %></dd>
+        </div>
+        <div>
+          <dt>Цена</dt>
+          <dd><%= formatPrice(event.price) %></dd>
+        </div>
+        <div>
+          <dt>Свободни места</dt>
+          <dd><%= countAvailableSeats(event) %> / <%= event.seats_total %></dd>
+        </div>
+      </dl>
+
+      <div class="card-actions">
+        <a href="/events/<%= event.id %>" class="ghost-button button-link">Детайли</a>
+
+        <% if (currentUser.role === 'student' && event.status === 'open') { %>
+          <% if (studentRegistrations.has(event.id)) { %>
+            <form action="/events/<%= event.id %>/unregister" method="post">
+              <button type="submit" class="ghost-button danger">Откажи участие</button>
+            </form>
+          <% } else { %>
+            <form action="/events/<%= event.id %>/register" method="post">
+              <button type="submit" class="primary-button" <%= countAvailableSeats(event) <= 0 ? 'disabled' : '' %>>
+                Запиши се
+              </button>
+            </form>
+          <% } %>
+        <% } %>
+
+        <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+          <a href="/events/<%= event.id %>/participants" class="ghost-button button-link">Участници</a>
+        <% } %>
+      </div>
+    </article>
+  <% }) %>
+</section>
+
+<%- include('../partials/footer') %>
