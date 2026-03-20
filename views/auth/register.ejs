@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card compact auth-hero">
+<section class="hero-card auth-hero auth-hero--split">
   <div class="auth-intro">
     <span class="eyebrow">Нова регистрация</span>
-    <h1>Създай профил за училищната платформа</h1>
+    <h1>Създай профил за Trippilot</h1>
     <p>
       Ученици, учители и родители могат да създават профили и да участват в
       процеса по организация на ученически екскурзии и училищни събития.
@@ -17,7 +17,30 @@
     </div>
   </div>
 
-  <form action="/register" method="post" class="panel form-card wide auth-card">
+  <aside class="auth-visual">
+    <img
+      src="/public/hero-school-trip.svg"
+      alt="Илюстрация на организиране на ученическо събитие"
+      class="auth-illustration"
+    />
+
+    <article class="auth-float-card">
+      <span class="eyebrow">Create account</span>
+      <h3>Започни с роля и достъп до правилния поток</h3>
+      <p>Регистрацията поддържа роли, валидации, запис в база данни и готов user flow за проекта.</p>
+
+      <div class="hero-chip-row">
+        <span class="mini-pill">Student</span>
+        <span class="mini-pill">Teacher</span>
+        <span class="mini-pill">Parent</span>
+        <span class="mini-pill">Admin</span>
+      </div>
+    </article>
+  </aside>
+</section>
+
+<section class="auth-layout auth-layout--travel auth-layout--register">
+  <form action="/register" method="post" class="panel form-card auth-card auth-card--wide">
     <span class="eyebrow">Create profile</span>
     <h2>Регистрация</h2>
 
@@ -69,6 +92,25 @@
       Вече имаш профил? <a href="/login">Влез тук</a>
     </p>
   </form>
+
+  <aside class="panel demo-card demo-card--travel">
+    <span class="eyebrow">Registration notes</span>
+    <h3>Подготвено за user stories и acceptance criteria</h3>
+    <div class="feature-grid feature-grid--stacked">
+      <div class="feature-tile">
+        <strong>Validation</strong>
+        <p>Проверяват се валиден имейл и минимална дължина на паролата.</p>
+      </div>
+      <div class="feature-tile">
+        <strong>Roles</strong>
+        <p>Регистрацията позволява student, teacher, parent и admin flow в системата.</p>
+      </div>
+      <div class="feature-tile">
+        <strong>Database</strong>
+        <p>След успешна регистрация акаунтът се записва и може да влезе в платформата.</p>
+      </div>
+    </div>
+  </aside>
 </section>
 
 <%- include('../partials/footer') %>

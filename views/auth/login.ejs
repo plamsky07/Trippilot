@@ -1,12 +1,12 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card compact auth-hero">
+<section class="hero-card auth-hero auth-hero--split">
   <div class="auth-intro">
     <span class="eyebrow">Вход в системата</span>
-    <h1>Trippilot за ученици, учители, родители и администратори</h1>
+    <h1>Вход в платформата за училищни събития</h1>
     <p>
       Влез, за да управляваш ученически екскурзии, училищни събития, записвания,
-      родителски съгласия и плащания.
+      родителски съгласия, плащания и административен контрол в една система.
     </p>
 
     <div class="hero-chip-row">
@@ -17,7 +17,28 @@
     </div>
   </div>
 
-  <div class="auth-layout auth-layout--travel">
+  <aside class="auth-visual">
+    <img
+      src="/public/hero-school-trip.svg"
+      alt="Илюстрация на ученическа екскурзия и планиране на събития"
+      class="auth-illustration"
+    />
+
+    <article class="auth-float-card">
+      <span class="eyebrow">School journey</span>
+      <h3>Организация от създаване до потвърждение</h3>
+      <p>Учителят публикува, ученикът се записва, родителят одобрява, администраторът следи.</p>
+
+      <div class="hero-chip-row">
+        <span class="mini-pill">Audit log</span>
+        <span class="mini-pill">Seat plan</span>
+        <span class="mini-pill">Payments</span>
+      </div>
+    </article>
+  </aside>
+</section>
+
+<section class="auth-layout auth-layout--travel">
     <form action="/login" method="post" class="panel form-card auth-card">
       <span class="eyebrow">Welcome back</span>
       <h2>Вход</h2>
@@ -54,7 +75,6 @@
         <li><strong>Parent:</strong> <span class="credential-pill">parent@trippilot.local / Parent123!</span></li>
       </ul>
     </aside>
-  </div>
 </section>
 
 <%- include('../partials/footer') %>
