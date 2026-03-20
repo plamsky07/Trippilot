@@ -1,47 +1,10 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card auth-hero auth-hero--split">
-  <div class="auth-intro">
-    <span class="eyebrow">Вход в системата</span>
-    <h1>Вход в платформата за училищни събития</h1>
-    <p>
-      Влез, за да управляваш ученически екскурзии, училищни събития, записвания,
-      родителски съгласия, плащания и административен контрол в една система.
-    </p>
-
-    <div class="hero-chip-row">
-      <span class="info-chip">Student bookings</span>
-      <span class="info-chip">Teacher planning</span>
-      <span class="info-chip">Parent approvals</span>
-      <span class="info-chip">Admin control</span>
-    </div>
-  </div>
-
-  <aside class="auth-visual">
-    <img
-      src="/public/hero-school-trip.svg"
-      alt="Илюстрация на ученическа екскурзия и планиране на събития"
-      class="auth-illustration"
-    />
-
-    <article class="auth-float-card">
-      <span class="eyebrow">School journey</span>
-      <h3>Организация от създаване до потвърждение</h3>
-      <p>Учителят публикува, ученикът се записва, родителят одобрява, администраторът следи.</p>
-
-      <div class="hero-chip-row">
-        <span class="mini-pill">Audit log</span>
-        <span class="mini-pill">Seat plan</span>
-        <span class="mini-pill">Payments</span>
-      </div>
-    </article>
-  </aside>
-</section>
-
-<section class="auth-layout auth-layout--travel">
-    <form action="/login" method="post" class="panel form-card auth-card">
+<section class="auth-layout auth-layout--travel auth-layout--simple">
+    <form action="/login" method="post" class="panel form-card auth-card auth-card--primary">
       <span class="eyebrow">Welcome back</span>
-      <h2>Вход</h2>
+      <h1 class="auth-form-title">Вход</h1>
+      <p class="auth-form-copy">Влез в профила си и продължи с организацията на събитията.</p>
 
       <% if (errorMessage) { %>
         <div class="inline-error"><%= errorMessage %></div>

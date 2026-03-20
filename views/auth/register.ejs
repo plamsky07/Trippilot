@@ -1,48 +1,10 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card auth-hero auth-hero--split">
-  <div class="auth-intro">
-    <span class="eyebrow">Нова регистрация</span>
-    <h1>Създай профил за Trippilot</h1>
-    <p>
-      Ученици, учители и родители могат да създават профили и да участват в
-      процеса по организация на ученически екскурзии и училищни събития.
-    </p>
-
-    <div class="hero-chip-row">
-      <span class="info-chip">Име, имейл и парола</span>
-      <span class="info-chip">Роля в системата</span>
-      <span class="info-chip">Запис в база</span>
-      <span class="info-chip">Validation & errors</span>
-    </div>
-  </div>
-
-  <aside class="auth-visual">
-    <img
-      src="/public/hero-school-trip.svg"
-      alt="Илюстрация на организиране на ученическо събитие"
-      class="auth-illustration"
-    />
-
-    <article class="auth-float-card">
-      <span class="eyebrow">Create account</span>
-      <h3>Започни с роля и достъп до правилния поток</h3>
-      <p>Регистрацията поддържа роли, валидации, запис в база данни и готов user flow за проекта.</p>
-
-      <div class="hero-chip-row">
-        <span class="mini-pill">Student</span>
-        <span class="mini-pill">Teacher</span>
-        <span class="mini-pill">Parent</span>
-        <span class="mini-pill">Admin</span>
-      </div>
-    </article>
-  </aside>
-</section>
-
-<section class="auth-layout auth-layout--travel auth-layout--register">
-  <form action="/register" method="post" class="panel form-card auth-card auth-card--wide">
+<section class="auth-layout auth-layout--travel auth-layout--simple auth-layout--register">
+  <form action="/register" method="post" class="panel form-card auth-card auth-card--primary auth-card--wide">
     <span class="eyebrow">Create profile</span>
-    <h2>Регистрация</h2>
+    <h1 class="auth-form-title">Регистрация</h1>
+    <p class="auth-form-copy">Създай профил и избери роля в платформата за училищни събития.</p>
 
     <% if (errorMessage) { %>
       <div class="inline-error"><%= errorMessage %></div>

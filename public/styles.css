@@ -1025,6 +1025,7 @@ body {
     radial-gradient(circle at 86% 82%, rgba(126, 200, 228, 0.18), transparent 27%),
     linear-gradient(180deg, #fbfefe 0%, #f2fafc 52%, #f8fbfd 100%);
   position: relative;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -1045,23 +1046,23 @@ h2,
 h3 {
   font-family: var(--font-display);
   color: #202b3d;
-  line-height: 0.96;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 
 h1 {
-  font-size: clamp(3.2rem, 5.7vw, 5.8rem);
-  max-width: 9.4ch;
-  margin-bottom: 18px;
+  font-size: clamp(2.4rem, 4vw, 4.4rem);
+  max-width: 10ch;
+  margin-bottom: 14px;
   text-wrap: balance;
 }
 
 h2 {
-  font-size: clamp(2rem, 3vw, 3.2rem);
+  font-size: clamp(1.7rem, 2.4vw, 2.6rem);
 }
 
 h3 {
-  font-size: clamp(1.38rem, 2.1vw, 1.96rem);
+  font-size: clamp(1.2rem, 1.65vw, 1.62rem);
 }
 
 p {
@@ -1071,8 +1072,18 @@ p {
 .page-shell {
   position: relative;
   z-index: 1;
-  max-width: 1480px;
-  padding: 28px 28px 42px;
+  width: min(100%, 1880px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0 clamp(12px, 1.5vw, 22px) 36px;
+}
+
+.content-shell,
+.site-header,
+.hero-card,
+.panel,
+.site-footer {
+  width: 100%;
 }
 
 .site-header,
@@ -1088,14 +1099,19 @@ p {
 }
 
 .site-header {
-  padding: 18px 24px;
-  gap: 18px;
-  border-radius: 34px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 12px 20px;
+  gap: 14px;
+  margin-bottom: 14px;
+  border-radius: 0 0 28px 28px;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .brand-block {
   display: grid;
-  gap: 10px;
+  gap: 0;
 }
 
 .brand-row {
@@ -1106,7 +1122,7 @@ p {
 }
 
 .brand-mark {
-  padding: 12px 18px;
+  padding: 10px 16px;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1115,22 +1131,19 @@ p {
 }
 
 .brand-tag {
-  padding: 11px 16px;
+  padding: 9px 14px;
   border-radius: 999px;
   background: rgba(95, 198, 209, 0.15);
   border: 1px solid rgba(95, 198, 209, 0.18);
   color: var(--secondary-dark);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .brand-copy {
-  max-width: 40rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--muted);
+  display: none;
 }
 
 .topbar-actions {
@@ -1146,7 +1159,7 @@ p {
 .primary-button,
 .small-button,
 .button-link {
-  padding: 12px 18px;
+  padding: 10px 16px;
   border-radius: 999px;
   font-weight: 700;
 }
@@ -1154,6 +1167,7 @@ p {
 .main-nav a {
   color: #61778b;
   background: rgba(255, 255, 255, 0.58);
+  font-size: 0.98rem;
 }
 
 .main-nav a.active,
@@ -1164,8 +1178,8 @@ p {
 }
 
 .user-chip {
-  padding: 12px 16px;
-  border-radius: 20px;
+  padding: 10px 14px;
+  border-radius: 18px;
   background: rgba(95, 198, 209, 0.14);
   border: 1px solid rgba(95, 198, 209, 0.18);
   color: var(--secondary-dark);
@@ -1173,7 +1187,7 @@ p {
 
 .hero-card,
 .panel {
-  padding: 30px;
+  padding: 24px;
 }
 
 .hero-card--landing,
@@ -1185,7 +1199,7 @@ p {
 
 .hero-card--landing {
   grid-template-columns: minmax(0, 1.16fr) minmax(360px, 0.84fr);
-  min-height: 620px;
+  min-height: 520px;
 }
 
 .hero-card--landing::before,
@@ -1216,13 +1230,13 @@ p {
   z-index: 1;
   display: grid;
   align-content: start;
-  gap: 24px;
+  gap: 18px;
 }
 
 .hero-copy {
   max-width: 40rem;
-  font-size: 1.08rem;
-  line-height: 1.75;
+  font-size: 0.98rem;
+  line-height: 1.7;
 }
 
 .eyebrow {
@@ -1242,11 +1256,12 @@ p {
 .info-chip,
 .tag-chip,
 .mini-pill {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(32, 72, 108, 0.08);
   color: #395269;
+  font-size: 0.92rem;
   font-weight: 700;
   box-shadow: 0 10px 20px rgba(24, 50, 76, 0.06);
 }
@@ -1257,7 +1272,7 @@ p {
 }
 
 .metric-card {
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(246, 251, 252, 0.95));
   border: 1px solid rgba(32, 72, 108, 0.08);
@@ -1277,7 +1292,7 @@ p {
 .metric-card strong {
   color: #223149;
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3vw, 2.9rem);
+  font-size: clamp(1.55rem, 2.1vw, 2.2rem);
   font-weight: 600;
 }
 
@@ -1360,7 +1375,7 @@ p {
 .spotlight-copy h2 {
   max-width: 7ch;
   color: white;
-  font-size: clamp(2.3rem, 3.8vw, 3.7rem);
+  font-size: clamp(1.8rem, 2.6vw, 2.8rem);
 }
 
 .spotlight-copy p,
@@ -1502,7 +1517,7 @@ textarea:focus {
 
 .event-visual-copy h2 {
   max-width: 9ch;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(1.6rem, 2.15vw, 2.25rem);
   margin-bottom: 0;
 }
 
@@ -1696,7 +1711,7 @@ td {
 /* Shared travel-like layouts for auth, forms and footer */
 .site-footer {
   margin-top: 26px;
-  padding: 28px 30px;
+  padding: 24px 26px;
   border-radius: 34px;
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.66);
@@ -1817,7 +1832,12 @@ td {
 }
 
 .auth-layout--travel {
-  margin-top: 4px;
+  align-items: start;
+  margin-top: 8px;
+}
+
+.auth-layout--simple {
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.75fr);
 }
 
 .auth-layout--register .auth-card--wide {
@@ -1827,13 +1847,28 @@ td {
 .auth-card,
 .form-card--travel,
 .demo-card--travel {
-  padding: 26px;
-  border-radius: 30px;
+  padding: 24px;
+  border-radius: 26px;
 }
 
 .auth-card h2,
 .form-card--travel h2 {
   margin-bottom: 10px;
+}
+
+.auth-card--primary {
+  order: 0;
+}
+
+.auth-form-title {
+  max-width: none;
+  margin-bottom: 6px;
+  font-size: clamp(1.9rem, 2.4vw, 2.7rem);
+}
+
+.auth-form-copy {
+  margin-bottom: 8px;
+  font-size: 0.98rem;
 }
 
 .credentials-list {
@@ -1933,5 +1968,10 @@ label {
     bottom: 16px;
     width: calc(100% - 32px);
     padding: 18px;
+  }
+
+  .site-header {
+    padding: 12px 14px;
+    border-radius: 0 0 22px 22px;
   }
 }
