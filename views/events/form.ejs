@@ -1,74 +1,106 @@
 <%- include('../partials/header') %>
 
-<section class="panel">
-  <div class="section-heading">
-    <div>
-      <span class="eyebrow"><%= isEdit ? 'Редакция' : 'Създаване' %></span>
-      <h1><%= pageTitle %></h1>
+<section class="hero-card compact form-stage">
+  <div class="form-stage-copy">
+    <span class="eyebrow"><%= isEdit ? 'Редакция' : 'Създаване' %></span>
+    <h1><%= pageTitle %></h1>
+    <p>
+      Попълни основните данни за събитието и платформата ще го покаже в
+      каталога, детайлната страница и организационния поток за записване.
+    </p>
+
+    <div class="hero-chip-row">
+      <span class="info-chip">Категория и група</span>
+      <span class="info-chip">Дата и локация</span>
+      <span class="info-chip">Капацитет и цена</span>
+      <span class="info-chip">Teacher workflow</span>
     </div>
   </div>
 
-  <% if (errorMessage) { %>
-    <div class="inline-error"><%= errorMessage %></div>
-  <% } %>
+  <div class="form-stage-grid">
+    <section class="panel form-card form-card--travel">
+      <% if (errorMessage) { %>
+        <div class="inline-error"><%= errorMessage %></div>
+      <% } %>
 
-  <form action="<%= formAction %>" method="post" class="form-grid two-columns">
-    <label class="full-span">
-      Заглавие
-      <input type="text" name="title" value="<%= event.title %>" required />
-    </label>
+      <form action="<%= formAction %>" method="post" class="form-grid two-columns">
+        <label class="full-span">
+          Заглавие
+          <input type="text" name="title" value="<%= event.title %>" required />
+        </label>
 
-    <label class="full-span">
-      Описание
-      <textarea name="description" rows="5" required><%= event.description %></textarea>
-    </label>
+        <label class="full-span">
+          Описание
+          <textarea name="description" rows="5" required><%= event.description %></textarea>
+        </label>
 
-    <label>
-      Категория
-      <select name="category" required>
-        <% eventCategories.forEach((categoryOption) => { %>
-          <option value="<%= categoryOption %>" <%= event.category === categoryOption ? 'selected' : '' %>>
-            <%= categoryOption %>
-          </option>
-        <% }) %>
-      </select>
-    </label>
+        <label>
+          Категория
+          <select name="category" required>
+            <% eventCategories.forEach((categoryOption) => { %>
+              <option value="<%= categoryOption %>" <%= event.category === categoryOption ? 'selected' : '' %>>
+                <%= categoryOption %>
+              </option>
+            <% }) %>
+          </select>
+        </label>
 
-    <label>
-      Клас / група
-      <input type="text" name="targetGroup" value="<%= event.targetGroup %>" required />
-    </label>
+        <label>
+          Клас / група
+          <input type="text" name="targetGroup" value="<%= event.targetGroup %>" required />
+        </label>
 
-    <label>
-      Дата
-      <input type="date" name="eventDate" value="<%= event.eventDate %>" required />
-    </label>
+        <label>
+          Дата
+          <input type="date" name="eventDate" value="<%= event.eventDate %>" required />
+        </label>
 
-    <label>
-      Час на тръгване
-      <input type="time" name="departureTime" value="<%= event.departureTime %>" required />
-    </label>
+        <label>
+          Час на тръгване
+          <input type="time" name="departureTime" value="<%= event.departureTime %>" required />
+        </label>
 
-    <label>
-      Дестинация / локация
-      <input type="text" name="location" value="<%= event.location %>" required />
-    </label>
+        <label>
+          Дестинация / локация
+          <input type="text" name="location" value="<%= event.location %>" required />
+        </label>
 
-    <label>
-      Брой места
-      <input type="number" name="seatsTotal" min="1" value="<%= event.seatsTotal %>" required />
-    </label>
+        <label>
+          Брой места
+          <input type="number" name="seatsTotal" min="1" value="<%= event.seatsTotal %>" required />
+        </label>
 
-    <label>
-      Цена на ученик
-      <input type="number" name="price" min="0" step="0.01" value="<%= event.price %>" required />
-    </label>
+        <label>
+          Цена на ученик
+          <input type="number" name="price" min="0" step="0.01" value="<%= event.price %>" required />
+        </label>
 
-    <div class="full-span button-row">
-      <button type="submit" class="primary-button"><%= submitLabel %></button>
-      <a href="/events" class="ghost-button button-link">Назад</a>
-    </div>
-  </form>
+        <div class="full-span button-row">
+          <button type="submit" class="primary-button"><%= submitLabel %></button>
+          <a href="/events" class="ghost-button button-link">Назад</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="panel demo-card demo-card--travel">
+      <span class="eyebrow">Planner notes</span>
+      <h3>Какво се вижда след запис</h3>
+      <div class="feature-grid feature-grid--stacked">
+        <div class="feature-tile">
+          <strong>Event card</strong>
+          <p>Събитието излиза в каталога с категория, места, цена и organizer данни.</p>
+        </div>
+        <div class="feature-tile">
+          <strong>Detail page</strong>
+          <p>Ученици, родители и учители виждат действията си на едно място.</p>
+        </div>
+        <div class="feature-tile">
+          <strong>Admin control</strong>
+          <p>Audit log и статистиките остават синхронизирани със създаването и редакцията.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
 </section>
 
 <%- include('../partials/footer') %>

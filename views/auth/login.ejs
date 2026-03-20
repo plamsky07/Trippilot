@@ -1,17 +1,25 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card compact">
-  <div>
+<section class="hero-card compact auth-hero">
+  <div class="auth-intro">
     <span class="eyebrow">Вход в системата</span>
     <h1>Trippilot за ученици, учители, родители и администратори</h1>
     <p>
       Влез, за да управляваш ученически екскурзии, училищни събития, записвания,
       родителски съгласия и плащания.
     </p>
+
+    <div class="hero-chip-row">
+      <span class="info-chip">Student bookings</span>
+      <span class="info-chip">Teacher planning</span>
+      <span class="info-chip">Parent approvals</span>
+      <span class="info-chip">Admin control</span>
+    </div>
   </div>
 
-  <div class="auth-layout">
-    <form action="/login" method="post" class="panel form-card">
+  <div class="auth-layout auth-layout--travel">
+    <form action="/login" method="post" class="panel form-card auth-card">
+      <span class="eyebrow">Welcome back</span>
       <h2>Вход</h2>
 
       <% if (errorMessage) { %>
@@ -35,13 +43,15 @@
       </p>
     </form>
 
-    <aside class="panel demo-card">
-      <h3>Демо акаунти</h3>
+    <aside class="panel demo-card demo-card--travel">
+      <span class="eyebrow">Demo access</span>
+      <h3>Влез с примерни роли</h3>
+      <p>Тези акаунти са удобни за demo на всички acceptance criteria и роли.</p>
       <ul class="credentials-list">
-        <li><strong>Admin:</strong> `admin@trippilot.local` / `Admin123!`</li>
-        <li><strong>Teacher:</strong> `teacher@trippilot.local` / `Teacher123!`</li>
-        <li><strong>Student:</strong> `student@trippilot.local` / `Student123!`</li>
-        <li><strong>Parent:</strong> `parent@trippilot.local` / `Parent123!`</li>
+        <li><strong>Admin:</strong> <span class="credential-pill">admin@trippilot.local / Admin123!</span></li>
+        <li><strong>Teacher:</strong> <span class="credential-pill">teacher@trippilot.local / Teacher123!</span></li>
+        <li><strong>Student:</strong> <span class="credential-pill">student@trippilot.local / Student123!</span></li>
+        <li><strong>Parent:</strong> <span class="credential-pill">parent@trippilot.local / Parent123!</span></li>
       </ul>
     </aside>
   </div>

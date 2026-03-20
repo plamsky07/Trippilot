@@ -1692,3 +1692,156 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+/* Shared travel-like layouts for auth, forms and footer */
+.site-footer {
+  margin-top: 26px;
+  padding: 28px 30px;
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: 1.35fr 0.8fr 0.8fr 0.8fr;
+}
+
+.footer-brand,
+.footer-column {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.footer-brand p,
+.footer-column span,
+.footer-column a {
+  color: var(--muted);
+}
+
+.footer-column a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-column a:hover {
+  color: var(--secondary-dark);
+  transform: translateX(2px);
+}
+
+.footer-title {
+  color: #36526a;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.auth-hero,
+.form-stage {
+  gap: 28px;
+}
+
+.auth-intro,
+.form-stage-copy {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+}
+
+.auth-layout--travel,
+.form-stage-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+}
+
+.auth-card,
+.form-card--travel,
+.demo-card--travel {
+  padding: 26px;
+  border-radius: 30px;
+}
+
+.auth-card h2,
+.form-card--travel h2 {
+  margin-bottom: 10px;
+}
+
+.credentials-list {
+  display: grid;
+  gap: 14px;
+  padding-left: 18px;
+}
+
+.credentials-list li {
+  color: #2f435a;
+}
+
+.credential-pill {
+  display: inline-flex;
+  margin-top: 6px;
+  padding: 9px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(32, 72, 108, 0.08);
+  color: #456076;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.demo-card--travel {
+  background:
+    radial-gradient(circle at top right, rgba(115, 217, 227, 0.16), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 251, 253, 0.96));
+}
+
+.form-stage-grid .demo-card--travel {
+  align-self: start;
+}
+
+.feature-grid--stacked {
+  grid-template-columns: 1fr;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+label {
+  display: grid;
+  gap: 10px;
+  color: #355068;
+  font-weight: 700;
+}
+
+.form-card textarea {
+  min-height: 144px;
+  resize: vertical;
+}
+
+@media (max-width: 1180px) {
+  .footer-grid,
+  .auth-layout--travel,
+  .form-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .site-footer {
+    padding: 22px;
+    border-radius: 26px;
+  }
+
+  .auth-card,
+  .form-card--travel,
+  .demo-card--travel {
+    padding: 22px;
+  }
+}

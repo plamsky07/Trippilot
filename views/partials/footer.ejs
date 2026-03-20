@@ -1,4 +1,47 @@
       </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <section class="footer-brand">
+            <div class="brand-row">
+              <a href="/events" class="brand-mark">Trippilot</a>
+              <span class="brand-tag">School Events Platform</span>
+            </div>
+            <p>
+              Уеб система за организиране на ученически екскурзии, училищни
+              събития, записвания, родителски потвърждения и административен
+              контрол.
+            </p>
+          </section>
+
+          <section class="footer-column">
+            <span class="footer-title">Навигация</span>
+            <a href="/events">Събития</a>
+            <% if (!currentUser) { %>
+              <a href="/login">Вход</a>
+              <a href="/register">Регистрация</a>
+            <% } else if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+              <a href="/events/new">Ново събитие</a>
+            <% } %>
+          </section>
+
+          <section class="footer-column">
+            <span class="footer-title">Функции</span>
+            <span>CRUD за събития</span>
+            <span>Търсене и филтриране</span>
+            <span>Страница с детайли</span>
+            <span>Audit log</span>
+          </section>
+
+          <section class="footer-column">
+            <span class="footer-title">Роли</span>
+            <span>Student</span>
+            <span>Teacher</span>
+            <span>Parent</span>
+            <span>Admin</span>
+          </section>
+        </div>
+      </footer>
     </div>
   </body>
 </html>

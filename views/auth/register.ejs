@@ -1,16 +1,24 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card compact">
-  <div>
+<section class="hero-card compact auth-hero">
+  <div class="auth-intro">
     <span class="eyebrow">Нова регистрация</span>
     <h1>Създай профил за училищната платформа</h1>
     <p>
       Ученици, учители и родители могат да създават профили и да участват в
       процеса по организация на ученически екскурзии и училищни събития.
     </p>
+
+    <div class="hero-chip-row">
+      <span class="info-chip">Име, имейл и парола</span>
+      <span class="info-chip">Роля в системата</span>
+      <span class="info-chip">Запис в база</span>
+      <span class="info-chip">Validation & errors</span>
+    </div>
   </div>
 
-  <form action="/register" method="post" class="panel form-card wide">
+  <form action="/register" method="post" class="panel form-card wide auth-card">
+    <span class="eyebrow">Create profile</span>
     <h2>Регистрация</h2>
 
     <% if (errorMessage) { %>
