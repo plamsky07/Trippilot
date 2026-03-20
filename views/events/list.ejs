@@ -11,7 +11,7 @@
 <section class="hero-card hero-card--landing">
   <div class="hero-main">
     <span class="eyebrow">Event Made</span>
-    <h1>Планирай ученически екскурзии и училищни събития в една ясна платформа</h1>
+    <h1>Планирай екскурзии и училищни събития по-лесно</h1>
     <p class="hero-copy">
       Учителите създават и управляват събития, учениците се записват,
       родителите потвърждават участие, а администраторът следи потребители,
@@ -45,15 +45,15 @@
     <% if (heroEvent) { %>
       <article class="spotlight-card theme-0">
         <div class="spotlight-visual">
-          <span class="spotlight-label">Hot Pick</span>
-          <span class="status-pill <%= heroEvent.status %>"><%= heroEvent.status === 'open' ? 'Open for booking' : 'Cancelled' %></span>
+          <span class="spotlight-label">Акцент</span>
+          <span class="status-pill <%= heroEvent.status %>"><%= heroEvent.status === 'open' ? 'Отворено за записване' : 'Отменено' %></span>
         </div>
 
         <div class="spotlight-copy">
           <p class="spotlight-overline"><%= heroEvent.category %> · <%= heroEvent.target_group %></p>
           <h2><%= heroEvent.title %></h2>
           <p><%= heroEvent.location %> · <%= heroEvent.event_date %></p>
-          <a href="/events/<%= heroEvent.id %>" class="primary-button button-link">Explore Event</a>
+          <a href="/events/<%= heroEvent.id %>" class="primary-button button-link">Виж събитието</a>
         </div>
       </article>
     <% } else { %>
