@@ -10,8 +10,11 @@
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-block">
-          <a href="/events" class="brand-mark">Trippilot</a>
-          <p class="brand-copy">Организация на ученически екскурзии и училищни събития</p>
+          <div class="brand-row">
+            <a href="/events" class="brand-mark">Trippilot</a>
+            <span class="brand-tag">School Events Platform</span>
+          </div>
+          <p class="brand-copy">Организация на ученически екскурзии, класни участия и училищни събития</p>
         </div>
 
         <div class="topbar-actions">
@@ -36,6 +39,11 @@
             <form action="/logout" method="post">
               <button type="submit" class="ghost-button">Изход</button>
             </form>
+          <% } else { %>
+            <nav class="main-nav">
+              <a href="/login" class="<%= currentPath === '/login' ? 'active' : '' %>">Вход</a>
+              <a href="/register" class="<%= currentPath === '/register' ? 'active' : '' %>">Регистрация</a>
+            </nav>
           <% } %>
         </div>
       </header>

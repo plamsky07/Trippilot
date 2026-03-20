@@ -1,13 +1,40 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card">
-  <div>
+<section class="hero-card hero-card--details">
+  <div class="hero-main detail-main">
     <span class="eyebrow"><%= event.category %></span>
     <h1><%= event.title %></h1>
-    <p><%= event.description %></p>
+    <p class="hero-copy"><%= event.description %></p>
+
+    <div class="hero-chip-row">
+      <span class="info-chip"><%= event.target_group %></span>
+      <span class="info-chip"><%= event.event_date %></span>
+      <span class="info-chip"><%= event.departure_time %></span>
+      <span class="info-chip"><%= event.location %></span>
+    </div>
+
+    <div class="hero-metrics hero-metrics--detail">
+      <article class="metric-card">
+        <span>Цена</span>
+        <strong><%= formatPrice(event.price) %></strong>
+      </article>
+      <article class="metric-card">
+        <span>Свободни места</span>
+        <strong><%= availableSeats %></strong>
+      </article>
+      <article class="metric-card">
+        <span>Организатор</span>
+        <strong><%= event.organizer_name %></strong>
+      </article>
+    </div>
   </div>
 
-  <div class="panel detail-sidecard">
+  <div class="panel detail-sidecard detail-sidecard--travel">
+    <div class="detail-sidecard-top">
+      <span class="spotlight-overline">Event Overview</span>
+      <span class="status-pill <%= event.status %>"><%= event.status === 'open' ? 'Отворено' : 'Отменено' %></span>
+    </div>
+
     <h2>Информация</h2>
     <dl class="meta-grid">
       <div>
@@ -70,6 +97,36 @@
       <% } %>
     </div>
   </div>
+</section>
+
+<section class="detail-content-grid">
+  <article class="panel editorial-card editorial-card--large">
+    <span class="eyebrow">What is tracked</span>
+    <h2>Всички важни детайли за участието са на едно място</h2>
+    <div class="feature-grid">
+      <div class="feature-tile">
+        <strong>Регистрация</strong>
+        <p>Следим кой ученик е записан и кой се е отказал.</p>
+      </div>
+      <div class="feature-tile">
+        <strong>Родителско съгласие</strong>
+        <p>Потвърждението остава видимо в detail view и в организационния поток.</p>
+      </div>
+      <div class="feature-tile">
+        <strong>Плащане и места</strong>
+        <p>Организаторът управлява payment status и seat plan от една и съща система.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel editorial-card">
+    <span class="eyebrow">Quick Notes</span>
+    <h3>Подходящо за демо и защита</h3>
+    <p>
+      Страницата вече стои като travel detail page, но използва същите данни,
+      routes и функционалности, които вече имаме в проекта.
+    </p>
+  </article>
 </section>
 
 <% if (currentUser.role === 'parent' && parentLinkedRegistrations.length > 0) { %>

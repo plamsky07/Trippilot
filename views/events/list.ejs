@@ -1,16 +1,85 @@
 <%- include('../partials/header') %>
 
-<section class="hero-card">
-  <div>
-    <span class="eyebrow">Училищен календар</span>
-    <h1>Екскурзии, посещения и събития за ученици</h1>
-    <p>
-      Тук учителите публикуват нови събития, учениците се записват, а родителите
-      потвърждават участие и следят организацията.
+<%
+  const openEvents = events.filter((event) => event.status === 'open');
+  const featuredEvents = (openEvents.length ? openEvents : events).slice(0, 3);
+  const heroEvent = featuredEvents[0] ?? null;
+  const uniqueCategories = [...new Set(events.map((event) => event.category))];
+  const totalOpenSeats = events.reduce((sum, event) => sum + countAvailableSeats(event), 0);
+%>
+
+<section class="hero-card hero-card--landing">
+  <div class="hero-main">
+    <span class="eyebrow">Event Made</span>
+    <h1>Екскурзии и училищни събития с визуален ритъм като модерна travel платформа</h1>
+    <p class="hero-copy">
+      Запазваме всички текущи функционалности, но ги подреждаме в по-силен
+      интерфейс: открояващ hero, богати event cards, търсене отпред и по-ясни
+      визуални секции за учители, ученици и родители.
     </p>
+
+    <div class="hero-chip-row">
+      <span class="info-chip">Учители публикуват събития</span>
+      <span class="info-chip">Ученици се записват</span>
+      <span class="info-chip">Родители потвърждават</span>
+      <span class="info-chip">Admin следи контрол и логове</span>
+    </div>
+
+    <div class="hero-metrics">
+      <article class="metric-card">
+        <span>Активни събития</span>
+        <strong><%= openEvents.length %></strong>
+      </article>
+      <article class="metric-card">
+        <span>Категории</span>
+        <strong><%= uniqueCategories.length %></strong>
+      </article>
+      <article class="metric-card">
+        <span>Свободни места</span>
+        <strong><%= totalOpenSeats %></strong>
+      </article>
+    </div>
   </div>
 
-  <form action="/events" method="get" class="panel filter-panel">
+  <aside class="hero-spotlight">
+    <% if (heroEvent) { %>
+      <article class="spotlight-card theme-0">
+        <div class="spotlight-visual">
+          <span class="spotlight-label">Hot Pick</span>
+          <span class="status-pill <%= heroEvent.status %>"><%= heroEvent.status === 'open' ? 'Open for booking' : 'Cancelled' %></span>
+        </div>
+
+        <div class="spotlight-copy">
+          <p class="spotlight-overline"><%= heroEvent.category %> · <%= heroEvent.target_group %></p>
+          <h2><%= heroEvent.title %></h2>
+          <p><%= heroEvent.location %> · <%= heroEvent.event_date %></p>
+          <a href="/events/<%= heroEvent.id %>" class="primary-button button-link">Explore Event</a>
+        </div>
+      </article>
+    <% } else { %>
+      <article class="spotlight-card theme-1">
+        <div class="spotlight-copy">
+          <p class="spotlight-overline">School Journeys</p>
+          <h2>Създай първото събитие</h2>
+          <p>Все още няма публикувани екскурзии или училищни участия.</p>
+          <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+            <a href="/events/new" class="primary-button button-link">Създай събитие</a>
+          <% } %>
+        </div>
+      </article>
+    <% } %>
+  </aside>
+</section>
+
+<section class="panel search-stage">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Search Plans</span>
+      <h2>Открий правилното събитие по име, категория или дата</h2>
+    </div>
+  </div>
+
+  <form action="/events" method="get" class="search-builder">
     <div class="form-grid four-columns">
       <label>
         Търси по заглавие или клас
@@ -35,15 +104,34 @@
       </label>
 
       <div class="filter-actions">
-        <button type="submit" class="primary-button">Филтрирай</button>
-        <a href="/events" class="ghost-button button-link">Изчисти</a>
+        <button type="submit" class="primary-button">Search</button>
+        <a href="/events" class="ghost-button button-link">Clear All</a>
       </div>
     </div>
   </form>
 </section>
 
+<section class="panel category-stage">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Categories</span>
+      <h2>Trip Ideas за училищния календар</h2>
+    </div>
+  </div>
+
+  <div class="category-grid">
+    <% uniqueCategories.forEach((categoryName, index) => { %>
+      <article class="category-card theme-<%= index % 4 %>">
+        <span class="category-kicker">Collection</span>
+        <h3><%= categoryName %></h3>
+        <p><%= events.filter((event) => event.category === categoryName).length %> събития в тази категория</p>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
 <% if (currentUser.role === 'parent' && parentApprovals.length > 0) { %>
-  <section class="panel">
+  <section class="panel parent-action-stage">
     <div class="section-heading">
       <div>
         <span class="eyebrow">Родителски действия</span>
@@ -93,7 +181,14 @@
   </section>
 <% } %>
 
-<section class="cards-grid">
+<section class="section-heading">
+  <div>
+    <span class="eyebrow">Fresh & Fabulous Getaways</span>
+    <h2>Актуални събития и ученически маршрути</h2>
+  </div>
+</section>
+
+<section class="cards-grid cards-grid--travel">
   <% if (events.length === 0) { %>
     <article class="panel empty-card">
       <h2>Няма съвпадащи събития</h2>
@@ -101,66 +196,96 @@
     </article>
   <% } %>
 
-  <% events.forEach((event) => { %>
-    <article class="panel event-card">
-      <div class="event-card-header">
-        <span class="status-pill <%= event.status %>"><%= event.status === 'open' ? 'Отворено' : 'Отменено' %></span>
-        <span class="eyebrow"><%= event.category %></span>
+  <% events.forEach((event, index) => { %>
+    <article class="panel event-card event-card--destination theme-<%= index % 4 %>">
+      <div class="event-visual">
+        <div class="event-card-header">
+          <span class="status-pill <%= event.status %>"><%= event.status === 'open' ? 'Отворено' : 'Отменено' %></span>
+          <span class="mini-pill"><%= event.category %></span>
+        </div>
+
+        <div class="event-visual-copy">
+          <span class="event-location"><%= event.location %></span>
+          <h2><a href="/events/<%= event.id %>"><%= event.title %></a></h2>
+          <p class="event-target"><%= event.target_group %> · <%= event.event_date %></p>
+        </div>
       </div>
 
-      <h2><a href="/events/<%= event.id %>"><%= event.title %></a></h2>
-      <p><%= event.description %></p>
+      <div class="event-card-body">
+        <p><%= event.description %></p>
 
-      <dl class="meta-grid">
-        <div>
-          <dt>Клас</dt>
-          <dd><%= event.target_group %></dd>
-        </div>
-        <div>
-          <dt>Дата</dt>
-          <dd><%= event.event_date %></dd>
-        </div>
-        <div>
-          <dt>Час</dt>
-          <dd><%= event.departure_time %></dd>
-        </div>
-        <div>
-          <dt>Локация</dt>
-          <dd><%= event.location %></dd>
-        </div>
-        <div>
-          <dt>Цена</dt>
-          <dd><%= formatPrice(event.price) %></dd>
-        </div>
-        <div>
-          <dt>Свободни места</dt>
-          <dd><%= countAvailableSeats(event) %> / <%= event.seats_total %></dd>
-        </div>
-      </dl>
+        <dl class="meta-grid">
+          <div>
+            <dt>Час</dt>
+            <dd><%= event.departure_time %></dd>
+          </div>
+          <div>
+            <dt>Организатор</dt>
+            <dd><%= event.organizer_name %></dd>
+          </div>
+          <div>
+            <dt>Цена</dt>
+            <dd><%= formatPrice(event.price) %></dd>
+          </div>
+          <div>
+            <dt>Свободни места</dt>
+            <dd><%= countAvailableSeats(event) %> / <%= event.seats_total %></dd>
+          </div>
+        </dl>
 
-      <div class="card-actions">
-        <a href="/events/<%= event.id %>" class="ghost-button button-link">Детайли</a>
+        <div class="tag-row">
+          <span class="tag-chip">School Event</span>
+          <span class="tag-chip"><%= event.category %></span>
+          <span class="tag-chip"><%= event.location %></span>
+        </div>
 
-        <% if (currentUser.role === 'student' && event.status === 'open') { %>
-          <% if (studentRegistrations.has(event.id)) { %>
-            <form action="/events/<%= event.id %>/unregister" method="post">
-              <button type="submit" class="ghost-button danger">Откажи участие</button>
-            </form>
-          <% } else { %>
-            <form action="/events/<%= event.id %>/register" method="post">
-              <button type="submit" class="primary-button" <%= countAvailableSeats(event) <= 0 ? 'disabled' : '' %>>
-                Запиши се
-              </button>
-            </form>
+        <div class="card-actions">
+          <a href="/events/<%= event.id %>" class="ghost-button button-link">Explore</a>
+
+          <% if (currentUser.role === 'student' && event.status === 'open') { %>
+            <% if (studentRegistrations.has(event.id)) { %>
+              <form action="/events/<%= event.id %>/unregister" method="post">
+                <button type="submit" class="ghost-button danger">Откажи участие</button>
+              </form>
+            <% } else { %>
+              <form action="/events/<%= event.id %>/register" method="post">
+                <button type="submit" class="primary-button" <%= countAvailableSeats(event) <= 0 ? 'disabled' : '' %>>
+                  Запиши се
+                </button>
+              </form>
+            <% } %>
           <% } %>
-        <% } %>
 
-        <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
-          <a href="/events/<%= event.id %>/participants" class="ghost-button button-link">Участници</a>
-        <% } %>
+          <% if (currentUser.role === 'teacher' || currentUser.role === 'admin') { %>
+            <a href="/events/<%= event.id %>/participants" class="ghost-button button-link">Участници</a>
+          <% } %>
+        </div>
       </div>
     </article>
   <% }) %>
+</section>
+
+<section class="editorial-grid">
+  <article class="panel editorial-card editorial-card--large">
+    <span class="eyebrow">Trip Ideas</span>
+    <h2>Подреди училищния календар като curated travel collection</h2>
+    <p>
+      Събитията вече се виждат като premium destination cards, а не просто като
+      списък. Това прави платформата много по-силна визуално за демо и защита.
+    </p>
+  </article>
+
+  <article class="panel editorial-card">
+    <span class="eyebrow">For Teachers</span>
+    <h3>Бързо създаване на събития</h3>
+    <p>Добавяш маршрут, категория, дата, места и веднага получаваш силна detail страница.</p>
+  </article>
+
+  <article class="panel editorial-card">
+    <span class="eyebrow">For Parents</span>
+    <h3>По-ясно потвърждение</h3>
+    <p>Родителските действия остават същите, но са много по-видими и подредени.</p>
+  </article>
 </section>
 
 <%- include('../partials/footer') %>

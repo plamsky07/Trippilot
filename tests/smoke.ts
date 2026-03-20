@@ -25,6 +25,12 @@ async function run() {
     assert.equal(loginResponse.status, 302);
     assert.equal(loginResponse.headers.location, "/events");
 
+    const listResponse = await agent.get("/events");
+
+    assert.equal(listResponse.status, 200);
+    assert.match(listResponse.text, /Search Plans/);
+    assert.match(listResponse.text, /Trip Ideas/);
+
     const registerResponse = await agent.post("/events/1/register").type("form").send({});
 
     assert.equal(registerResponse.status, 302);
